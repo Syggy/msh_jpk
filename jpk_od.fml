@@ -4,6 +4,8 @@
 :: deklaracja objektu jpk 
 obj_decl('JPK_CLASS',
          obj_fld('File',0),
+		 obj_fld('Fname','jpk_kr_'),
+		 obj_fld('Fpath','c:\\jpk\\jpk_vat'),
 		 obj_fld('KodForm','JPK_KR'),
 		 obj_fld('kodSys','JPK_KR (1)'),
 		 obj_fld('werSchem','1-0'),
@@ -49,6 +51,30 @@ obj_decl('JPK_CLASS',
             .toXML('etd:KodPocztowy',,@.FINFO.KOD_P);
             .toXML('etd:Poczta',,@.FINFO.POCZ);
             .toXML('/AdresPodmiotu');
-            .toXML('/Podmiot1')
-		 "),			
+            .toXML('/Podmiot1')"),
+         obj_meth('Start',".Fname:=-.KodForm+(date$0);
+		    undefine();
+			define('PATH',.Fpath,utf8_maz('Ścieżka'),,60,60);
+            define('FILE',.Fname,'Nazwa pliku',,20,20);
+			{? def_edit() ||
+               .Fpath:={? DEFINE.FILE*'.'>0 || (DEFINE.FILE*'.')+DEFINE.FILE+'xml'|| DEFINE.FILE+'.xml' ?};
+               .Fpath:=DEFINE.PATH;
+               .File:=fopen('@'+.Fpath+'\\'+.Fname,'w');
+               .toXML('?xml version=\"1.0\" encoding=\"UTF-8\"?');
+               .toXML('JPK','xmlns="http://jpk.mf.gov.pl/wzor/2016/03/09/03091/" xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"');
+               1
+            || 0 
+            ?}"),
+         obj_meth('Stop',".toXML('/JPK');
+            fclose(.File); msg('Plik '+.Fname+utf8_maz(' został wygenerowany pomyślnie'));1"),
+         obj_meth('Naglowek',"toXml('Naglowek');
+            .toXML('KodFormularza','wersjaSchemy=\"+.werSchem+\" kodSystemowy="'+kodSys+'"',.KodForm);
+            .toXML('WariantFormularza',,.WarForm);
+            .toXML('CelZlozenia',,.CelZl);
+            .toXML('DataWytworzeniaJPK',,.DataWyt);
+            .toXML('DataOd',,.DataOd);
+            .toXML('DataDo',,.DataDo);
+            .toXML('DomyslnyKodWaluty',,'PLN');
+            .toXML('KodUrzedu',,'1209');
+            .toXML('/Naglowek');1")			
 )
