@@ -1,0 +1,54 @@
+:!UTF-8
+
+\jpk_decl
+:: deklaracja objektu jpk 
+obj_decl('JPK_CLASS',
+         obj_fld('File',0),
+		 obj_fld('KodForm','JPK_KR'),
+		 obj_fld('kodSys','JPK_KR (1)'),
+		 obj_fld('werSchem','1-0'),
+		 obj_fld('WarForm','1'),
+		 obj_fld('CelZl','1'),
+		 obj_fld('DataWyt',date),
+		 obj_fld('DataOd',date),
+		 obj_fld('DataDo',date),
+		 obj_fld('KodWal','PLN'),
+		 obj_fld('KodUs','1209'), 
+         obj_meth('__init',"@.STALE.AO(); 
+		    .DataOd:=.TData(form(OKRO_F.POCZ));
+			.DataDo:=.TData(form(OKRO_F.KON));
+			.DataWyt:=.TDataTime(date,time)"),
+		 obj_meth('__done',""),
+		 obj_meth('TData',"_a:=form(_a);(4+_a)+'-'+(2+(5-_a))+'-'+(_a+2)"),
+		 obj_meth('TDataTime',".TData(form(_a))+'T'+form(_b,,3)"),
+         obj_meth('toXML',"
+		    {? _=1 || _b:=_c:=~~ |? _=2 || _c:=~~ ?};
+			{? var_pres('_a')<0 || _a:='error' ?};
+            {? var_pres('_b')<=0 || _b:='' ?};
+			_wiersz:='<'+_a+{? _b<>''||' '+_b||''?}+'>'+{? var_pres('_c')>0 || maz_utf8(_c)+'</'+_a+'>' || '' ?};
+            {? var_pres('_c')>0 & _c<>'' || fwrite(.File,_wiersz)
+            |? var_pres('_c')<=0 || fwrite(.File,_wiersz)
+            || 1
+            ?};1"),
+         obj_meth('Podmiot',".toXML('Podmiot1');
+            toXML('IdentyfikatorPodmiotu');
+            _nip:=STR.gsub(@.FINFO.NIP,'-',''); 
+            .toXML('etd:NIP',,_nip);
+            .toXML('etd:PelnaNazwa',,@.FINFO.NAZ);
+            .toXML('etd:REGON',,@.FINFO.REGON);
+            .toXML('/IdentyfikatorPodmiotu');
+            .toXML('AdresPodmiotu');
+            .toXML('etd:KodKraju',,@.FINFO.KRAJ().KODISO);
+            .toXML('etd:Wojewodztwo',,@.FINFO.WOJ().NAZWA);
+            .toXML('etd:Powiat',,@.FINFO.POWIAT);
+            .toXML('etd:Gmina',,@.FINFO.GMINA);
+            .toXML('etd:Ulica',,@.FINFO.UL);
+            .toXML('etd:NrDomu',,@.FINFO.NR_D);
+            .toXML('etd:NrLokalu',,@.FINFO.NR_L);
+            .toXML('etd:Miejscowosc',,@.FINFO.MIA);
+            .toXML('etd:KodPocztowy',,@.FINFO.KOD_P);
+            .toXML('etd:Poczta',,@.FINFO.POCZ);
+            .toXML('/AdresPodmiotu');
+            .toXML('/Podmiot1')
+		 "),			
+)
