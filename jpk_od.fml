@@ -2,13 +2,14 @@
 
 \jpk_decl
 :: deklaracja objektu jpk 
-obj_decl('JPK_CLASS',
+{? var_pres('JPKCLASS',@.CLASS)<0 ||
+   obj_decl('JPKCLASS',
          obj_fld('File',0),
 		 obj_fld('Fname','jpk_kr_'),
 		 obj_fld('Fpath','c:\\jpk\\jpk_vat'),
 		 obj_fld('KodForm','JPK_KR'),
-		 obj_fld('kodSys','JPK_KR (1)'),
-		 obj_fld('werSchem','1-0'),
+		 obj_fld('KodSys','JPK_KR (1)'),
+		 obj_fld('WerSchem','1-0'),
 		 obj_fld('WarForm','1'),
 		 obj_fld('CelZl','1'),
 		 obj_fld('DataWyt',date),
@@ -23,7 +24,7 @@ obj_decl('JPK_CLASS',
 		 obj_meth('__done',""),
 		 obj_meth('TData',"_a:=form(_a);(4+_a)+'-'+(2+(5-_a))+'-'+(_a+2)"),
 		 obj_meth('TDataTime',".TData(form(_a))+'T'+form(_b,,3)"),
-         obj_meth('toXML',"
+         obj_meth('toxml',"
 		    {? _=1 || _b:=_c:=~~ |? _=2 || _c:=~~ ?};
 			{? var_pres('_a')<0 || _a:='error' ?};
             {? var_pres('_b')<=0 || _b:='' ?};
@@ -32,49 +33,105 @@ obj_decl('JPK_CLASS',
             |? var_pres('_c')<=0 || fwrite(.File,_wiersz)
             || 1
             ?};1"),
-         obj_meth('Podmiot',".toXML('Podmiot1');
-            toXML('IdentyfikatorPodmiotu');
+         obj_meth('podmiot',".toxml('Podmiot1');
+            .toxml('IdentyfikatorPodmiotu');
             _nip:=STR.gsub(@.FINFO.NIP,'-',''); 
-            .toXML('etd:NIP',,_nip);
-            .toXML('etd:PelnaNazwa',,@.FINFO.NAZ);
-            .toXML('etd:REGON',,@.FINFO.REGON);
-            .toXML('/IdentyfikatorPodmiotu');
-            .toXML('AdresPodmiotu');
-            .toXML('etd:KodKraju',,@.FINFO.KRAJ().KODISO);
-            .toXML('etd:Wojewodztwo',,@.FINFO.WOJ().NAZWA);
-            .toXML('etd:Powiat',,@.FINFO.POWIAT);
-            .toXML('etd:Gmina',,@.FINFO.GMINA);
-            .toXML('etd:Ulica',,@.FINFO.UL);
-            .toXML('etd:NrDomu',,@.FINFO.NR_D);
-            .toXML('etd:NrLokalu',,@.FINFO.NR_L);
-            .toXML('etd:Miejscowosc',,@.FINFO.MIA);
-            .toXML('etd:KodPocztowy',,@.FINFO.KOD_P);
-            .toXML('etd:Poczta',,@.FINFO.POCZ);
-            .toXML('/AdresPodmiotu');
-            .toXML('/Podmiot1')"),
-         obj_meth('Start',".Fname:=-.KodForm+(date$0);
+            .toxml('etd:NIP',,_nip);
+            .toxml('etd:PelnaNazwa',,@.FINFO.NAZ);
+            .toxml('etd:REGON',,@.FINFO.REGON);
+            .toxml('/IdentyfikatorPodmiotu');
+            .toxml('AdresPodmiotu');
+            .toxml('etd:KodKraju',,@.FINFO.KRAJ().KODISO);
+            .toxml('etd:Wojewodztwo',,@.FINFO.WOJ().NAZWA);
+            .toxml('etd:Powiat',,@.FINFO.POWIAT);
+            .toxml('etd:Gmina',,@.FINFO.GMINA);
+            .toxml('etd:Ulica',,@.FINFO.UL);
+            .toxml('etd:NrDomu',,@.FINFO.NR_D);
+            .toxml('etd:NrLokalu',,@.FINFO.NR_L);
+            .toxml('etd:Miejscowosc',,@.FINFO.MIA);
+            .toxml('etd:KodPocztowy',,@.FINFO.KOD_P);
+            .toxml('etd:Poczta',,@.FINFO.POCZ);
+            .toxml('/AdresPodmiotu');
+            .toxml('/Podmiot1')"),
+         obj_meth('start',".Fname:=-.KodForm+(date$0);
 		    undefine();
 			define('PATH',.Fpath,utf8_maz('Ścieżka'),,60,60);
             define('FILE',.Fname,'Nazwa pliku',,20,20);
 			{? def_edit() ||
-               .Fpath:={? DEFINE.FILE*'.'>0 || (DEFINE.FILE*'.')+DEFINE.FILE+'xml'|| DEFINE.FILE+'.xml' ?};
+               .Fname:={? DEFINE.FILE*'.'>0 || (DEFINE.FILE*'.')+DEFINE.FILE+'xml'|| DEFINE.FILE+'.xml' ?};
                .Fpath:=DEFINE.PATH;
-               .File:=fopen('@'+.Fpath+'\\'+.Fname,'w');
-               .toXML('?xml version=\"1.0\" encoding=\"UTF-8\"?');
-               .toXML('JPK','xmlns="http://jpk.mf.gov.pl/wzor/2016/03/09/03091/" xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"');
+               .File:=fopen('@'+.Fpath+'\\\\'+.Fname,'w');
+               .toxml('?xml version=\"1.0\" encoding=\"UTF-8\"?');
+               .toxml('JPK','xmlns=\"http://jpk.mf.gov.pl/wzor/2016/03/09/03091/\" xmlns:etd=\"http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"');
                1
             || 0 
             ?}"),
-         obj_meth('Stop',".toXML('/JPK');
+         obj_meth('stop',".toxml('/JPK');
             fclose(.File); msg('Plik '+.Fname+utf8_maz(' został wygenerowany pomyślnie'));1"),
-         obj_meth('Naglowek',"toXml('Naglowek');
-            .toXML('KodFormularza','wersjaSchemy=\"+.werSchem+\" kodSystemowy="'+kodSys+'"',.KodForm);
-            .toXML('WariantFormularza',,.WarForm);
-            .toXML('CelZlozenia',,.CelZl);
-            .toXML('DataWytworzeniaJPK',,.DataWyt);
-            .toXML('DataOd',,.DataOd);
-            .toXML('DataDo',,.DataDo);
-            .toXML('DomyslnyKodWaluty',,'PLN');
-            .toXML('KodUrzedu',,'1209');
-            .toXML('/Naglowek');1")			
-)
+         obj_meth('naglowek',".toxml('Naglowek');
+            .toxml('KodFormularza','wersjaSchemy=\"'+.WerSchem+'\" kodSystemowy=\"'+.KodSys+'\"',.KodForm);
+            .toxml('WariantFormularza',,.WarForm);
+            .toxml('CelZlozenia',,.CelZl);
+            .toxml('DataWytworzeniaJPK',,.DataWyt);
+            .toxml('DataOd',,.DataOd);
+            .toxml('DataDo',,.DataDo);
+            .toxml('DomyslnyKodWaluty',,'PLN');
+            .toxml('KodUrzedu',,'1209');
+            .toxml('/Naglowek');1")			
+           );1
+||
+   0
+?}
+
+\jpk_kr
+:: Deklaracja objektu
+
+exec('jpk_decl','jpk_od');
+JPK:=obj_new(@.CLASS.JPKCLASS);
+
+:: ustawienie zmiennnych JPK
+
+JPK.KodForm:='JPK_KR';
+JPK.KodSys:='JPK_KR (1)';
+JPK.WerSchem:='1-0';
+JPK.WarForm:='1';
+JPK.CelZl:='1';
+
+{? JPK.start() ||
+   JPK.naglowek();
+   JPK.podmiot();
+:: ------begine body ------
+
+:: ------- end body -------
+   JPK.stop();
+   1
+|| msg('Plik nie została wygenerowany!!')
+?};
+obj_del(JPK)
+
+\jpk_zois
+:: zestawienie obrotów i sald do JPK_KR
+:: objekt JPK zadeklarowany w nagłówku
+
+JPK.toxml('ZOiS');
+
+JPK.toxml('KodKonta');
+JPK.toxml('OpisKonta');
+JPK.toxml('TypKonta');
+JPK.toxml('KodZespolu');
+JPK.toxml('OpisZespolu');
+JPK.toxml('KodKategorii');
+JPK.toxml('OpisKategorii');
+JPK.toxml('KodPodkategorii');
+JPK.toxml('OpisPodkategorii');
+JPK.toxml('BilansOtwarciaWinien');
+JPK.toxml('BilansOtwarciaMa');
+JPK.toxml('ObrotyWinien');
+JPK.toxml('ObrotyMa');
+JPK.toxml('ObrotyWinienNarast');
+JPK.toxml('ObrotyMaNarast');
+JPK.toxml('SaldoWinien');
+JPK.toxml('SaldoMa');
+
+JPK.toxml('/ZOiS')
+
