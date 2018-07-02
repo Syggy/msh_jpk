@@ -105,7 +105,7 @@ JPK.CelZl:='1';
 :: ------- end body -------
    JPK.stop();
    1
-|| msg('Plik nie została wygenerowany!!')
+|| msg('Plik nie została wygenerowany!!') 
 ?};
 obj_del(JPK)
 
@@ -113,7 +113,7 @@ obj_del(JPK)
 :: zestawienie obrotów i sald do JPK_KR
 :: objekt JPK zadeklarowany w nagłówku
 
-JPK.toxml('ZOiS');
+JPK.toxml('ZOiS','typ=\"G\"');
 
 JPK.toxml('KodKonta');
 JPK.toxml('OpisKonta');
@@ -134,4 +134,20 @@ JPK.toxml('SaldoWinien');
 JPK.toxml('SaldoMa');
 
 JPK.toxml('/ZOiS')
+
+\zespol
+:: opis zespołu kont wg wykazu kont bilansowych
+:: _a kod zespołu kont [String]
+
+{? _a='0' || 'Aktywa trwałe'
+|? _a='1' || 'Środki pieniężne i rachunki bankowe'
+|? _a='2' || 'Rozrachunki i roszczenia'
+|? _a='3' || 'Materiały i towary'
+|? _a='4' || 'Koszty według rodzajów i ich rozliczenie'
+|? _a='5' || 'Koszty według typów działalności i ich rozliczenie'
+|? _a='6' || 'Produkty i rozliczenia międzyokresowe'
+|? _a='7' || 'Przychody i koszty związane z ich osiągnięciem'
+|? _a='8' || 'Kapitały ( fundusze) własne, fundusze specjalne i wynik finansowy'
+|| ''
+?}
 
