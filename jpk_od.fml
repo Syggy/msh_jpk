@@ -24,6 +24,7 @@
 		 obj_meth('__done',""),
 		 obj_meth('TData',"_a:=form(_a);(4+_a)+'-'+(2+(5-_a))+'-'+(_a+2)"),
 		 obj_meth('TDataTime',".TData(form(_a))+'T'+form(_b,,3)"),
+		 obj_meth('TKwota',"form(_a,,2,'9.')"),
          obj_meth('toxml',"
 		    {? _=1 || _b:=_c:=~~ |? _=2 || _c:=~~ ?};
 			{? var_pres('_a')<0 || _a:='error' ?};
@@ -101,7 +102,7 @@ JPK.CelZl:='1';
    JPK.naglowek();
    JPK.podmiot();
 :: ------begine body ------
-
+   exec('jpk_zois','jpk_od');
 :: ------- end body -------
    JPK.stop();
    1
@@ -113,27 +114,38 @@ obj_del(JPK)
 :: zestawienie obrotów i sald do JPK_KR
 :: objekt JPK zadeklarowany w nagłówku
 
-JPK.toxml('ZOiS','typ=\"G\"');
-
-JPK.toxml('KodKonta');
-JPK.toxml('OpisKonta');
-JPK.toxml('TypKonta');
-JPK.toxml('KodZespolu');
-JPK.toxml('OpisZespolu');
-JPK.toxml('KodKategorii');
-JPK.toxml('OpisKategorii');
-JPK.toxml('KodPodkategorii');
-JPK.toxml('OpisPodkategorii');
-JPK.toxml('BilansOtwarciaWinien');
-JPK.toxml('BilansOtwarciaMa');
-JPK.toxml('ObrotyWinien');
-JPK.toxml('ObrotyMa');
-JPK.toxml('ObrotyWinienNarast');
-JPK.toxml('ObrotyMaNarast');
-JPK.toxml('SaldoWinien');
-JPK.toxml('SaldoMa');
-
-JPK.toxml('/ZOiS')
+AN.cntx_psh();AN.index('WALSYM');AN.prefix(SSTALE.WAL);
+{? AN.first || 
+{! |?
+      
+	  JPK.toxml('ZOiS','typ=\"G\"');
+      JPK.toxml('KodKonta',,AN.SYM);
+	  exec('pw_opan','obr_an');
+	  _ilepoz:=1;
+	  BUD.cntx_psh();BUD.index('KS'); BUD.prefix(AN.KS); _ilepoz+=BUD.size; BUD.cntx_pop();
+	  _op_kon:=$('KA.O'+form(_ilepoz));
+      JPK.toxml('OpisKonta',,_op_kon());
+      JPK.toxml('TypKonta',,exec('typ_ks','jpk_od',AN.KS().TYP));
+      JPK.toxml('KodZespolu',,1+AN.SYM);
+      JPK.toxml('OpisZespolu',,exec('zespol','jpk_od',1+AN.SYM));
+      JPK.toxml('KodKategorii',,AN.KS().SYM);
+      JPK.toxml('OpisKategorii',,AN.KS().NAZ);
+      JPK.toxml('KodPodkategorii',,'brak');
+      JPK.toxml('OpisPodkategorii',,'brak');
+      JPK.toxml('BilansOtwarciaWinien',,JPK.TKwota(F.Wn(0,0)));
+      JPK.toxml('BilansOtwarciaMa',,JPK.TKwota(F.Ma(0,0)));
+      JPK.toxml('ObrotyWinien',,JPK.TKwota(F.Wn(OKRO_F.POCZ ~2,OKRO_F.KON~2)));
+      JPK.toxml('ObrotyMa',,JPK.TKwota(F.Wn(OKRO_F.POCZ~2,OKRO_F.KON~2)));
+	  _wn:=F.Wn(0,OKRO_F.KON~2); _ma:=F.Ma(0,OKRO_F.KON~2);
+      JPK.toxml('ObrotyWinienNarast',,JPK.TKwota(_wn));
+      JPK.toxml('ObrotyMaNarast',,JPK.TKwota(_ma));
+      JPK.toxml('SaldoWinien',,JPK.TKwota(F.SWn(_wn,_ma)));
+      JPK.toxml('SaldoMa',,JPK.TKwota(F.SMa(_wn,_ma)));
+      JPK.toxml('/ZOiS');
+      AN.next
+!}
+?};
+AN.cntx_pop
 
 \zespol
 :: opis zespołu kont wg wykazu kont bilansowych
@@ -150,4 +162,16 @@ JPK.toxml('/ZOiS')
 |? _a='8' || 'Kapitały ( fundusze) własne, fundusze specjalne i wynik finansowy'
 || ''
 ?}
+
+\typ_ks
+:: typ konta _a=literowy typ konta
+
+{? _a='PB' || 'Pozabilansowe'
+|? _a='BL' || 'Bilansowe'
+|? _a='BW' || 'Wynikowe'
+|? _a='BN' || 'Bezwynikowe'
+|? _a='P1' || 'Pozabilansowe - jednoroczne'
+|| 'BRAK'
+?}
+
 
