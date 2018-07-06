@@ -103,6 +103,7 @@ JPK.CelZl:='1';
    JPK.podmiot();
 :: ------begine body ------
    exec('jpk_zois','jpk_od');
+   exec('jpk_dzie','jpk_od');
 :: ------- end body -------
    JPK.stop();
    1
@@ -124,14 +125,17 @@ AN.cntx_psh();AN.index('WALSYM');AN.prefix(SSTALE.WAL);
 	  _ilepoz:=1;
 	  BUD.cntx_psh();BUD.index('KS'); BUD.prefix(AN.KS); _ilepoz+=BUD.size; BUD.cntx_pop();
 	  _op_kon:=$('KA.O'+form(_ilepoz));
+	  {? _op_kon()='-' & _ilepoz>1 || _op_kon:=$('KA.O'+form(_ilepoz-1)) ?}; 
       JPK.toxml('OpisKonta',,_op_kon());
       JPK.toxml('TypKonta',,exec('typ_ks','jpk_od',AN.KS().TYP));
       JPK.toxml('KodZespolu',,1+AN.SYM);
       JPK.toxml('OpisZespolu',,exec('zespol','jpk_od',1+AN.SYM));
       JPK.toxml('KodKategorii',,AN.KS().SYM);
       JPK.toxml('OpisKategorii',,AN.KS().NAZ);
-      JPK.toxml('KodPodkategorii',,'brak');
-      JPK.toxml('OpisPodkategorii',,'brak');
+	  {? +AN.SYM>3 ||
+         JPK.toxml('KodPodkategorii',,4-AN.SYM);
+         JPK.toxml('OpisPodkategorii',,_op_kon())
+	  ?};
       JPK.toxml('BilansOtwarciaWinien',,JPK.TKwota(F.Wn(0,0)));
       JPK.toxml('BilansOtwarciaMa',,JPK.TKwota(F.Ma(0,0)));
       JPK.toxml('ObrotyWinien',,JPK.TKwota(F.Wn(OKRO_F.POCZ ~2,OKRO_F.KON~2)));
@@ -173,5 +177,42 @@ AN.cntx_pop
 |? _a='P1' || 'Pozabilansowe - jednoroczne'
 || 'BRAK'
 ?}
+
+\jpk_dzie
+:: dziennik 
+
+DOK.cntx_psh; POZ.cntx_psh;
+DOK.index('NRDZ2'); POZ.index('DOK');
+DOK.prefix('T','T');
+_lp:=0;_total:=0;
+{? DOK.first ||
+   {! |? _lp+=1; 	
+         JPK.toxml('Dziennik','typ=\"G\"');
+		 JPK.toxml('LpZapisuDziennika',,$_lp);
+         JPK.toxml('NrZapisuDziennika',,DOK.REJ().KOD+'/'+$DOK.NRDZ);
+         JPK.toxml('OpisDziennika',,DOK.REJ().NAZ);
+         JPK.toxml('NrDowoduKsiegowego',,DOK.NK);
+         JPK.toxml('RodzajDowodu',,DOK.DOK_REJ().NAZ);
+         JPK.toxml('DataOperacji',,JPK.TData(DOK.DTW));
+         JPK.toxml('DataDowodu',,JPK.TData(DOK.DTO));
+         JPK.toxml('DataKsiegowania',,JPK.TData(DOK.DKS));
+         JPK.toxml('KodOperatora',,DOK.KSIEGOWY);
+         JPK.toxml('OpisOperacji',,DOK.TR);
+		 _kw:=0; POZ.prefix(DOK.ref); 
+		 {? POZ.first || {! |? {? 1+POZ.STR='M'|| _kw+=POZ.SUM ?}; POZ.next !} ?};
+		 _total+=_kw;
+         JPK.toxml('DziennikKwotaOperacji',,JPK.TKwota(_kw));
+		 JPK.toxml('/Dziennik');
+		 DOK.next
+    !}
+?};
+POZ.cntx_pop; DOK.cntx_pop;
+JPK.toxml('DziennikCtrl');
+JPK.toxml('LiczbaWierszyDziennika',,$_lp);
+JPK.toxml('SumaKwotOperacji',,JPK.TKwota(_total));
+JPK.toxml('/DziennikCtrl');
+1
+    
+
 
 
