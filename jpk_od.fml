@@ -29,14 +29,14 @@
 		    {? _=1 || _b:=_c:=~~ |? _=2 || _c:=~~ ?};
 			{? var_pres('_a')<0 || _a:='error' ?};
             {? var_pres('_b')<=0 || _b:='' ?};
-			_wiersz:='<'+_a+{? _b<>''||' '+_b||''?}+'>'+{? var_pres('_c')>0 || maz_utf8(_c)+'</'+_a+'>' || '' ?};
+			_wiersz:='<'+_a+{? _b<>''||' '+_b||''?}+'>'+{? var_pres('_c')>0 || maz_utf8(@.STR.gsub(_c,'&',' '))+'</'+_a+'>' || '' ?};
             {? var_pres('_c')>0 & _c<>'' || fwrite(.File,_wiersz)
             |? var_pres('_c')<=0 || fwrite(.File,_wiersz)
             || 1
             ?};1"),
          obj_meth('podmiot',".toxml('Podmiot1');
             .toxml('IdentyfikatorPodmiotu');
-            _nip:=STR.gsub(@.FINFO.NIP,'-',''); 
+            _nip:=@.STR.gsub(@.FINFO.NIP,'-',''); 
             .toxml('etd:NIP',,_nip);
             .toxml('etd:PelnaNazwa',,@.FINFO.NAZ);
             .toxml('etd:REGON',,@.FINFO.REGON);
@@ -104,6 +104,7 @@ JPK.CelZl:='1';
 :: ------begine body ------
    exec('jpk_zois','jpk_od');
    exec('jpk_dzie','jpk_od');
+   exec('jpk_zap','jpk_od');
 :: ------- end body -------
    JPK.stop();
    1
@@ -164,6 +165,7 @@ AN.cntx_pop
 |? _a='6' || 'Produkty i rozliczenia międzyokresowe'
 |? _a='7' || 'Przychody i koszty związane z ich osiągnięciem'
 |? _a='8' || 'Kapitały ( fundusze) własne, fundusze specjalne i wynik finansowy'
+|? _a='9' || 'Pozabilansowe'
 || ''
 ?}
 
@@ -213,6 +215,53 @@ JPK.toxml('SumaKwotOperacji',,JPK.TKwota(_total));
 JPK.toxml('/DziennikCtrl');
 1
     
+\jpk_zap
+:: zapisy
 
+DOK.cntx_psh; POZ.cntx_psh;
+DOK.index('NRDZ2'); POZ.index('DOK');
+DOK.prefix('T','T');
+_lp:=0;_totalw:=_totalm:=0;
+{? DOK.first ||
+   {! |?  
+      _nrzap:=DOK.REJ().KOD+'/'+$DOK.NRDZ;
+      POZ.prefix(DOK.ref); 
+      {? POZ.first ||  
+         {! |?	
+		 _kww:=_kwm:=0;_lp+=1; 
+		 _ktw:=_ktm:='null';_opw:=_opm:='';
+         JPK.toxml('KontoZapis','typ=\"G\"');
+		 JPK.toxml('LpZapisu',,$_lp);
+         JPK.toxml('NrZapisu',,_nrzap);
+		 {? 1+POZ.STR='W'|| 
+		    _kww:=POZ.SUM;
+			_ktw:=POZ.KON;
+			_opw:=POZ.OP;
+		    _totalw+=_kww
+		 || 
+		    _kwm:=POZ.SUM;
+			_ktm:=POZ.KON;
+			_opm:=POZ.OP;
+		    _totalm+=_kwm
+		 ?};  
+		 JPK.toxml('KodKontaWinien',,_ktw);
+		 JPK.toxml('KwotaWinien',,JPK.TKwota(_kww));
+		 JPK.toxml('OpisZapisuWinien',,_opw);
+		 JPK.toxml('KodKontaMa',,_ktm);
+		 JPK.toxml('KwotaMa',,JPK.TKwota(_kwm));
+		 JPK.toxml('OpisZapisuMa',,_opm);
+		 JPK.toxml('/KontoZapis');
+		 POZ.next !}
+	  ?};
+	  DOK.next
+    !}
+?};
+POZ.cntx_pop; DOK.cntx_pop;
+JPK.toxml('KontoZapisCtrl');
+JPK.toxml('LiczbaWierszyKontoZapisj',,$_lp);
+JPK.toxml('SumaWinien',,JPK.TKwota(_totalw));
+JPK.toxml('SumaMa',,JPK.TKwota(_totalm));
+JPK.toxml('/KontoZapisCtrl');
+1
 
 
