@@ -264,4 +264,39 @@ JPK.toxml('SumaMa',,JPK.TKwota(_totalm));
 JPK.toxml('/KontoZapisCtrl');
 1
 
+\jpk_wb
+:: JPK WB
+
+:: Deklaracja objektu
+
+exec('jpk_decl','jpk_od');
+JPK:=obj_new(@.CLASS.JPKCLASS);
+
+:: ustawienie zmiennnych JPK
+
+JPK.KodForm:='JPK_WB';
+JPK.KodSys:='JPK_WB (1)';
+JPK.WerSchem:='1-0';
+JPK.WarForm:='1';
+JPK.CelZl:='1';
+
+{? JPK.start() ||
+   JPK.naglowek();
+   JPK.podmiot();
+:: ------begine body ------
+:: NumerRachunku
+   SKID_RBK.cntx_psh;
+   SKID.index('RD'); SKID_RBK.prefix('INFO');
+   _nrach:='BRAK';
+   {? SKID_RBK.first ||
+      {! |? {? SKID_RBK.RD='T' || _nrach:=SKID_RBK.N;0 || 1 ?} & SKID_RBK.next !}
+   ?}
+   SKID_RBK.cntx_pop;
+   JPK.toxml('NumerRachunku',,_nrach);
+:: ------- end body -------
+   JPK.stop();
+   1
+|| msg('Plik nie została wygenerowany!!') 
+?};
+obj_del(JPK)
 
