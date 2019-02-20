@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JPK xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns="http://jpk.mf.gov.pl/wzor/2016/03/09/03092/">
+  <Naglowek>
+    <KodFormularza kodSystemowy="JPK_WB(1)" wersjaSchemy="1-0">JPK_WB</KodFormularza>
+    <WariantFormularza>1</WariantFormularza>
+    <CelZlozenia>1</CelZlozenia>
+    <DataWytworzeniaJPK>2019-02-20T16:15:20</DataWytworzeniaJPK>
+    <DataOd>2018-12-03</DataOd>
+    <DataOd>2018-12-31</DataOd>
+    <DomyslnyKodWaluty>PLN</DomyslnyKodWaluty>
+    <KodUrzedu>1209</KodUrzedu>
+  </Naglowek>
+  <Podmiot1>
+    <IdentyfikatorPodmiotu>
+      <NIP>6760013533</NIP>
+      <PelnaNazwa>Ma&#322;opolska Sp&#243;&#322;ka Handlowa A.Chwedczuk Sp&#243;&#322;ka Jawna</PelnaNazwa>
+      <REGON>12344324</REGON>
+    </IdentyfikatorPodmiotu>
+    <AdresPodmiotu>
+      <KodKraju>PL</KodKraju>
+      <Wojewodztwo>ma&#322;opolskie</Wojewodztwo>
+      <Powiat>Krak&#243;w</Powiat>
+      <Gmina>Krak&#243;w</Gmina>
+      <Ulica>Nowolipki</Ulica>
+      <NrDomu>3</NrDomu>
+      <NrLokalu/>
+      <Miejscowosc>Krak&#243;w</Miejscowosc>
+      <KodPocztowy>31-532</KodPocztowy>
+      <Poczta>Krak&#243;w</Poczta>
+    </AdresPodmiotu>
+  </Podmiot1>
+  <NumerRachunku>PL55249000050000452092265332</NumerRachunku>
+  <Salda>
+    <SaldoPoczatkowe>80526.82</SaldoPoczatkowe>
+    <SaldoKoncowe>9299.73</SaldoKoncowe>
+  </Salda>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>1</NumerWiersza>
+    <DataOperacji>2018-12-03</DataOperacji>
+    <NazwaPodmiotu>Zaklad Ubezpieczen Spolecznych </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-319.94</KwotaOperacji>
+    <SaldoOperacji>80206.88</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>2</NumerWiersza>
+    <DataOperacji>2018-12-03</DataOperacji>
+    <NazwaPodmiotu>Zaklad Ubezpieczen Spolecznych </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-231.89</KwotaOperacji>
+    <SaldoOperacji>79974.99</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>3</NumerWiersza>
+    <DataOperacji>2018-12-03</DataOperacji>
+    <NazwaPodmiotu>Urzad Miasta Krakowa Wydzial  Podatkow i Oplat </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-442.68</KwotaOperacji>
+    <SaldoOperacji>79532.31</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>4</NumerWiersza>
+    <DataOperacji>2018-12-03</DataOperacji>
+    <NazwaPodmiotu>Zaklad Ubezpieczen Spolecznych </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-1163.39</KwotaOperacji>
+    <SaldoOperacji>78368.92</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>5</NumerWiersza>
+    <DataOperacji>2018-12-03</DataOperacji>
+    <NazwaPodmiotu>Urzad Miasta KrakowaWydzial Podatk ow i Oplat </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-2374.00</KwotaOperacji>
+    <SaldoOperacji>75994.92</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>6</NumerWiersza>
+    <DataOperacji>2018-12-03</DataOperacji>
+    <NazwaPodmiotu>Wspolnota Mieszkaniowa Rezydencja Canaletto </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-1675.26</KwotaOperacji>
+    <SaldoOperacji>74319.66</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>7</NumerWiersza>
+    <DataOperacji>2018-12-03</DataOperacji>
+    <NazwaPodmiotu>Orange Polska S.A Aleje Jerozolimskie 160 </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-553.88</KwotaOperacji>
+    <SaldoOperacji>73765.78</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>8</NumerWiersza>
+    <DataOperacji>2018-12-03</DataOperacji>
+    <NazwaPodmiotu>BlueMedia </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>9500.00</KwotaOperacji>
+    <SaldoOperacji>83265.78</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>9</NumerWiersza>
+    <DataOperacji>2018-12-04</DataOperacji>
+    <NazwaPodmiotu>PayPro (Przewoznicy) </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-150.00</KwotaOperacji>
+    <SaldoOperacji>83115.78</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>10</NumerWiersza>
+    <DataOperacji>2018-12-04</DataOperacji>
+    <NazwaPodmiotu>PayPro (Przewoznicy) </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-150.00</KwotaOperacji>
+    <SaldoOperacji>82965.78</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>11</NumerWiersza>
+    <DataOperacji>2018-12-05</DataOperacji>
+    <NazwaPodmiotu></NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>250314.38</KwotaOperacji>
+    <SaldoOperacji>333280.16</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>12</NumerWiersza>
+    <DataOperacji>2018-12-05</DataOperacji>
+    <NazwaPodmiotu>Lesniak Urszulaos. Oswiecenia 4/5 </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-490.99</KwotaOperacji>
+    <SaldoOperacji>332789.17</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>13</NumerWiersza>
+    <DataOperacji>2018-12-05</DataOperacji>
+    <NazwaPodmiotu>I. Litewka Kancelaria Prawna Armii  Krajowej 2/51 </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-1230.00</KwotaOperacji>
+    <SaldoOperacji>331559.17</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>14</NumerWiersza>
+    <DataOperacji>2018-12-05</DataOperacji>
+    <NazwaPodmiotu>Orange Polska S.A. Aleje Jerozolimskie 160 </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-55.35</KwotaOperacji>
+    <SaldoOperacji>331503.82</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>15</NumerWiersza>
+    <DataOperacji>2018-12-05</DataOperacji>
+    <NazwaPodmiotu>Andrzej Chwedczuk </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-30000.00</KwotaOperacji>
+    <SaldoOperacji>301503.82</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>16</NumerWiersza>
+    <DataOperacji>2018-12-05</DataOperacji>
+    <NazwaPodmiotu></NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-0.50</KwotaOperacji>
+    <SaldoOperacji>301503.32</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>17</NumerWiersza>
+    <DataOperacji>2018-12-05</DataOperacji>
+    <NazwaPodmiotu></NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-270000.00</KwotaOperacji>
+    <SaldoOperacji>31503.32</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>18</NumerWiersza>
+    <DataOperacji>2018-12-09</DataOperacji>
+    <NazwaPodmiotu>RAPHAEL CHWEDCZUK </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>1500.00</KwotaOperacji>
+    <SaldoOperacji>33003.32</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>19</NumerWiersza>
+    <DataOperacji>2018-12-11</DataOperacji>
+    <NazwaPodmiotu>Urzad Skarbowy Warszawa-Praga </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-3670.00</KwotaOperacji>
+    <SaldoOperacji>29333.32</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>20</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu>Wspolnota Mieszkaniowa Nieruchomosci </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-16.19</KwotaOperacji>
+    <SaldoOperacji>29317.13</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>21</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu></NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-0.50</KwotaOperacji>
+    <SaldoOperacji>29316.63</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>22</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu>Wspolnota Mieszkaniowa  Nieruchomosci </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-319.53</KwotaOperacji>
+    <SaldoOperacji>28997.10</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>23</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu></NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-0.50</KwotaOperacji>
+    <SaldoOperacji>28996.60</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>24</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu>ENEA S.A ul.Gorecka 1 </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-4610.11</KwotaOperacji>
+    <SaldoOperacji>24386.49</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>25</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu>UPC Polska Sp. z o.o. </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-305.07</KwotaOperacji>
+    <SaldoOperacji>24081.42</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>26</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu>UPC Polska Sp. z o.o. </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-123.49</KwotaOperacji>
+    <SaldoOperacji>23957.93</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>27</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu>Hitachi Capital Polska Spolka z o.o. </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-273.49</KwotaOperacji>
+    <SaldoOperacji>23684.44</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>28</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu>Planet Car Lease Sp.zoo </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-3612.52</KwotaOperacji>
+    <SaldoOperacji>20071.92</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>29</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu>GOR-HUT SPOLKA ZO.O. W UPADLOSCI NO WOLIPKI 3 31-752 KRAKOW </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>3567.05</KwotaOperacji>
+    <SaldoOperacji>23638.97</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>30</NumerWiersza>
+    <DataOperacji>2018-12-17</DataOperacji>
+    <NazwaPodmiotu>GOLBAL SERVICE SPOLKA Z O.O. UL. CHELMONSKIEGO JOZEFA 103J/1 </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>27702.72</KwotaOperacji>
+    <SaldoOperacji>51341.69</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>31</NumerWiersza>
+    <DataOperacji>2018-12-18</DataOperacji>
+    <NazwaPodmiotu>Urzad Skarbowy Krakow-Nowa Huta </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-8839.00</KwotaOperacji>
+    <SaldoOperacji>42502.69</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>32</NumerWiersza>
+    <DataOperacji>2018-12-21</DataOperacji>
+    <NazwaPodmiotu>Tauron Dystrybucja Spolka Akcyjna </NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-3411.92</KwotaOperacji>
+    <SaldoOperacji>39090.77</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>33</NumerWiersza>
+    <DataOperacji>2018-12-31</DataOperacji>
+    <NazwaPodmiotu></NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>270259.96</KwotaOperacji>
+    <SaldoOperacji>309350.73</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>34</NumerWiersza>
+    <DataOperacji>2018-12-31</DataOperacji>
+    <NazwaPodmiotu></NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-200000.00</KwotaOperacji>
+    <SaldoOperacji>109350.73</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>35</NumerWiersza>
+    <DataOperacji>2018-12-31</DataOperacji>
+    <NazwaPodmiotu></NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-100000.00</KwotaOperacji>
+    <SaldoOperacji>9350.73</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagWiersz typ="G">
+    <NumerWiersza>36</NumerWiersza>
+    <DataOperacji>2018-12-31</DataOperacji>
+    <NazwaPodmiotu></NazwaPodmiotu>
+    <OpisOperacji></OpisOperacji>
+    <KwotaOperacji>-51.00</KwotaOperacji>
+    <SaldoOperacji>9299.73</SaldoOperacji>
+  </WyciagWiersz>
+  <WyciagCtrl>
+    <LiczbaWierszy>36</LiczbaWierszy>
+    <SumaObciazen>634071.20</SumaObciazen>
+    <SumaUznan>562844.11</SumaUznan>
+  </WyciagCtrl>
+</JPK>

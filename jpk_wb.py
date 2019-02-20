@@ -7,10 +7,10 @@
 
 import sys
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
+#try:
+#    import Tkinter as tk
+#except ImportError:
+import tkinter as tk
 
 try:
     import ttk
@@ -67,7 +67,8 @@ class Toplevel1:
         self.style.map('.',background=
             [('selected', _compcolor), ('active',_ana2color)])
 
-        top.geometry("589x307+1835+225")
+        # top.geometry("589x307+1835+225")
+        top.geometry("589x307")
         top.title("JPK_WB Generator")
 
         self.menubar = tk.Menu(top,font="TkMenuFont",bg=_bgcolor,fg=_fgcolor)

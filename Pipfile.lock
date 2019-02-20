@@ -1,0 +1,29 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "b17e7e393221881f29855104ce0a627abec7685cf582c7cdacb35bdae49696b2"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.7"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "pyinstall": {
+            "hashes": [
+                "sha256:40cfb446473912ee65643ee202566d8496063292435625912b987f4441e5e6cf",
+                "sha256:bb2407a3664ce25454f7e4a93763198f3a6a43c0cc727e33a06c0ce18324cd15"
+            ],
+            "index": "pypi",
+            "version": "==0.1.4"
+        }
+    },
+    "develop": {}
+}

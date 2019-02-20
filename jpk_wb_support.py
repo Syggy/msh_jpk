@@ -11,10 +11,10 @@ import os.path as PT
 import lxml.etree as ET
 from datetime import date, time, datetime
 
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
+#try:
+#    import Tkinter as tk
+#except ImportError:
+import tkinter as tk
 
 try:
     import ttk
@@ -89,6 +89,9 @@ def generuj():
 def open_mt940():
     # print('jpk_wb_support.open_mt940')
     name = askopenfilename(filetypes=(('MT940','*.STA'),('Wszystkie pliki','*.*')))
+    k = len(w.mt_file.get())
+    if k>0 :
+       w.mt_file.delete(0,k)
     w.mt_file.insert(1,name)
     msg.set('otwieranie pliku...'+w.mt_file.get())
     w.b_Gen.configure(state='normal')
@@ -98,7 +101,6 @@ def open_mt940():
 def quit():
     # print('jpk_wb_support.quit')
     yn = messagebox.askyesno('Zakończ','Czy na pewno chesz wyjść z programu?')
-    print(w.menubar.index('Zakończ'))
     if yn :
         destroy_window()
     sys.stdout.flush()
