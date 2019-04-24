@@ -1,0 +1,275 @@
+:!UTF-8
+
+\toxml
+:: zapis linii do XML
+{? var_pres('_a')<0 || _a:='error' ?};
+{? var_pres('_b')<=0 || _b:='' ?};
+::_wiersz:='<'+_a+{? _b<>''||' '+_b||''?}+'>'+{? var_pres('_c')>0 || maz_utf8(_c)+'</'+((_a*':')-_a)+'>' || '' ?};
+_wiersz:='<'+_a+{? _b<>''||' '+_b||''?}+'>'+{? var_pres('_c')>0 || maz_utf8(_c)+'</'+_a+'>' || '' ?};
+{? var_pres('_c')>0 & _c<>'' || fwrite(file,_wiersz)
+|? var_pres('_c')<=0 || fwrite(file,_wiersz)
+|| 1
+?};1
+
+
+\jpk_start
+formDat:="_a:=form(_a);(4+_a)+'-'+(2+(5-_a))+'-'+(_a+2)";
+toXml:="{? _=1 || _b:=_c:=~~ |? _=2 || _c:=~~ ?}; exec('toxml','jpk',_a,_b,_c)";
+{? var_pres('k')<=0 || k:=obj_new(51) ?};
+{? var_pres('q')<=0 || q:=obj_new(51) ?};
+{? var_pres('STR')<0 || STR:=obj_new(@.CLASS.STRING) ?};
+undefine();
+{? var_pres('DEFPATH')<0 || DEFPATH:='c:\\jpk\\jpk_vat' ?};
+{? var_pres('DEFFILE')<0 || DEFFILE:='jpk_vat_01' ?};
+{? var_pres('DEFKUS')<0 || DEFKUS:='1209' ?};
+{? var_pres('DEFCEL')<0 || DEFCEL:='0' ?};
+define('PATH',DEFPATH,utf8_maz('Ścieżka'),,60,60);
+define('FILE',DEFFILE,'Nazwa pliku',,20,20);
+{? _a<>'3' || define('KUS',DEFKUS,'Kod Urzędu Skarbowego',,4,4) || define('CEL',DEFCEL,utf8_maz('Cel złożenia'),,2,2) ?};
+{? def_edit() ||
+   DEFFILE:={? DEFINE.FILE*'.'>0 || (DEFINE.FILE*'.')+DEFINE.FILE+'xml'|| DEFINE.FILE+'.xml' ?};
+   {? _a<>'3' || DEFKUS:=DEFINE.KUS || DEFCEL:=DEFINE.CEL ?};
+   DEFPATH:=DEFINE.PATH;
+   file:=fopen('@'+DEFPATH+'\\'+DEFFILE,'w');
+   toXml('?xml version=\"1.0\" encoding=\"UTF-8\"?');
+   toXml('tns:JPK','xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns:tns="http://jpk.mf.gov.pl/wzor/2017/11/13/1113/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"');
+   1
+|| &DEFFILE; &DEFKUS; &DEFPATH; &DEFCEL; &formDat; &toXml; obj_del(k);
+   0 
+?}
+
+\jpk_stop
+:: zakończenie pliku
+
+toXml('/tns:JPK');
+fclose(&file);
+msg('Plik '+DEFFILE+utf8_maz(' został wygenerowany pomyślnie'));
+&DEFFILE; &DEFKUS; &DEFPATH; &DEFCEL; &formDat; &toXml; obj_del(k); 1
+
+
+\naglowek
+:: ------------nagłówek-------------------
+:: _a - kod formularza
+:: _b - wariant (2)
+:: _c - cel złożenia domyślna ='1'
+
+{? var_pres('_a')=-1 || _a:='JPK_VAT' ?};
+{? var_pres('_b')=-1 || _b:='2' ?};
+{? var_pres('_c')=-1 || _c:='1' ?};
+{? var_pres('_d')=-1 || _d:='1-0' ?};
+toXml('tns:Naglowek');
+toXml('tns:KodFormularza','wersjaSchemy=\"'+_d+'\" kodSystemowy="'+_a+' ('+_b+')"',_a);
+toXml('tns:WariantFormularza',,_b);
+toXml('tns:CelZlozenia',,_c);
+_dataWytw:=formDat(form(date))+'T'+form(time,,3);
+toXml('tns:DataWytworzeniaJPK',,_dataWytw);
+STALE.AO();
+_dataod:=formDat(form(OKRO_F.POCZ)); _datado:=formDat(form(OKRO_F.KON));
+toXml('tns:DataOd',,_dataod);
+toXml('tns:DataDo',,_datado);
+{? _b='3' ||
+   toXml('tns:NazwaSystemu',,__System+' '+__Wersja) 
+||   
+   toXml('tns:DomyslnyKodWaluty',,'PLN');
+   toXml('tns:KodUrzedu',,'1209')
+?};
+toXml('/tns:Naglowek');
+1
+
+\podmiot
+:: ---------Podmiot1---------------
+:: _a - numer podmiotu domyślny '1'
+:: _b - wariant formularza
+
+{? var_pres('_a')=-1 || _a:='1' ?};
+{? var_pres('_b')=-1 || _b:='2' ?};
+toXml('tns:Podmiot'+_a);
+{? _b<>'3' || toXml('tns:IdentyfikatorPodmiotu') ?};
+_nip:=STR.gsub(FINFO.NIP,'-',''); 
+toXml('tns:NIP',,_nip);
+toXml('tns:PelnaNazwa',,FINFO.NAZ);
+{? _b='3' || 
+   toXml('tns:Email',,FINFO.EM)
+|| 
+   toXml('tns:REGON',,FINFO.REGON);
+   toXml('/tns:IdentyfikatorPodmiotu');
+   toXml('tns:AdresPodmiotu');
+   toXml('tns:KodKraju',,FINFO.KRAJ().KODISO);
+   toXml('tns:Wojewodztwo',,FINFO.WOJ().NAZWA);
+   toXml('tns:Powiat',,FINFO.POWIAT);
+   toXml('tns:Gmina',,FINFO.GMINA);
+   toXml('tns:Ulica',,FINFO.UL);
+   toXml('tns:NrDomu',,FINFO.NR_D);
+   toXml('tns:NrLokalu',,FINFO.NR_L);
+   toXml('tns:Miejscowosc',,FINFO.MIA);
+   toXml('tns:KodPocztowy',,FINFO.KOD_P);
+   toXml('tns:Poczta',,FINFO.POCZ);
+   toXml('/tns:AdresPodmiotu')
+?};
+toXml('/tns:Podmiot'+_a)
+
+\wierszSP
+:: dane o sprzedaży jeden wiersz
+:: _a - LpSprzedazy
+toXml('tns:SprzedazWiersz');
+toXml('tns:LpSprzedazy',,form(_a));
+_b:=STR.gsub(_b,'-','');{? _b='' || _b:='brak' ?};
+toXml('tns:NrKontrahenta',,_b);
+toXml('tns:NazwaKontrahenta',,maz_utf8(_c));
+toXml('tns:AdresKontrahenta',,maz_utf8(_d));
+toXml('tns:DowodSprzedazy',,_e);
+toXml('tns:DataWystawienia',,formDat(_f));
+toXml('tns:DataSprzedazy',,formDat(_g));
+{! _i:=10..39 |!
+  {? k[_i]<>0 ||
+   toXml('tns:K_'+form(_i),,form(k[_i],,2,'9.'))
+  ?}
+!};
+toXml('/tns:SprzedazWiersz');
+1
+
+\wierszZA
+:: dane o zakupach jeden wiersz do XML
+toXml('tns:ZakupWiersz');
+toXml('tns:LpZakupu',,form(_a));
+_b:=STR.gsub(_b,'-','');
+toXml('tns:NrDostawcy',,_b);
+toXml('tns:NazwaDostawcy',,maz_utf8(_c));
+toXml('tns:AdresDostawcy',,maz_utf8(_d));
+toXml('tns:DowodZakupu',,_e);
+toXml('tns:DataZakupu',,formDat(_f));
+toXml('tns:DataWplywu',,formDat(_g));
+{! _i:=43..50 |!
+  {? k[_i]<>0 | q[_i] ||
+   toXml('tns:K_'+form(_i),,form(k[_i],,2,'9.'))
+  ?}
+!};
+toXml('/tns:ZakupWiersz');
+1
+
+
+
+\sprzedaz
+:: sprzedaz
+{? _=0 || _a:=exec('kod_pl','skid_kh') ?};
+_lp:=0;k[1]:=k[2]:=_netto:=_pod:=0;
+
+RVAT.cntx_psh(); DVAT.cntx_psh(); PVAT.cntx_psh();
+RVAT.index('RVAT_ESY');RVAT.prefix('SprzKraj');
+DVAT.index('NR'); PVAT.index('NR');
+{? RVAT.first ||
+  {! |?  DVAT.prefix(_a,SSTALE.AO,RVAT.ref);
+         {? DVAT.first ||
+            {! |?_lp+=1;
+                 _nrKh:=DVAT.NIP;
+                 _nazKh:=DVAT.KH;
+                 _mask:=DVAT.DOKOKRO().ROK().KOD+form(DVAT.DOKOKRO().NR,-2);
+                 DOK.cntx_psh(); DOK.use('doku'+_mask); DVAT.DOK();
+                 KH.index('SKR'); KH.prefix(2,DVAT.KH,DVAT.KH);
+				 {? KH.first || 
+                 _adrKh:=KH.MIASTO+', '+KH.UL
+				 || _adrKh:='-'
+				 ?};
+				 _nrDok:=DVAT.SYM1;
+				 _datWyst:=DVAT.DAT1;
+				 _datSprz:=DVAT.DAT2;
+				 {! _i:=10..39 |! k[_i]:=0 !};
+				 PVAT.prefix(DVAT.ref);
+				 {? PVAT.first ||
+				    {! |? {? 6+PVAT.GRVAT().KOD='Sprzed' ||
+					         {? PVAT.STVAT().KOD=' 0 %' || _netto:=13; _pod:=0 
+							 |? PVAT.STVAT().KOD=' 5 %' || _netto:=15; _pod:=16
+							 |? PVAT.STVAT().KOD='np' || _netto:=10; _pod:=0
+                             |? PVAT.STVAT().KOD=' 7 %' | PVAT.STVAT().KOD=' 8 %' || _netto:=17; _pod:=18
+                             |? PVAT.STVAT().KOD='22 %'	| PVAT.STVAT().KOD='23 %' || _netto:=19; _pod:=20
+                             || _netto:=_pod:=0
+                             ?};
+					         {? _netto<>0 || k[_netto]+=PVAT.SUM2 ?};
+							 {? _pod<>0 || k[_pod]+=PVAT.VAT; k[2]+=PVAT.VAT ?}
+						  
+                          ?};						   
+                           PVAT.next 					
+					!}
+				 ?};
+                 exec('wierszSP','jpk',_lp,_nrKh,_nazKh,_adrKh,_nrDok,_datWyst,_datSprz);
+                 DOK.cntx_pop();
+		         DVAT.next	 
+            !}
+		 ?};
+		 RVAT.next
+  !}
+?};
+k[1]:=_lp;
+RVAT.cntx_pop(); DVAT.cntx_pop(); PVAT.cntx_pop();
+
+toXml('tns:SprzedazCtrl');
+toXml('tns:LiczbaWierszySprzedazy',,form(k[1]));
+toXml('tns:PodatekNalezny',,form(k[2],,2,'9.'));
+toXml('/tns:SprzedazCtrl')
+
+\zakupy
+:: element zakupów
+{? _=0 || _a:=exec('kod_pl','skid_kh') ?};
+_lp:=0;k[1]:=k[2]:=_netto:=_pod:=0;
+
+RVAT.cntx_psh(); DVAT.cntx_psh(); PVAT.cntx_psh();
+RVAT.index('RVAT_ESY');RVAT.prefix('ZakupKraj');
+DVAT.index('NR'); PVAT.index('NR');
+{? RVAT.first ||
+  {! |?  DVAT.prefix(_a,SSTALE.AO,RVAT.ref);
+         {? DVAT.first ||
+            {! |?_lp+=1;
+                 _nrKh:=DVAT.NIP;
+                 _nazKh:=DVAT.KH;
+                 _mask:=DVAT.DOKOKRO().ROK().KOD+form(DVAT.DOKOKRO().NR,-2);
+                 DOK.cntx_psh(); DOK.use('doku'+_mask); DVAT.DOK();
+				 KH.index('SKR'); KH.prefix(2,DVAT.KH,DVAT.KH);
+				 {? KH.first || 
+                 _adrKh:=KH.MIASTO+', '+KH.UL
+				 || _adrKh:='-'
+				 ?};
+				 _nrDok:=DVAT.SYM1;
+				 _datWyst:=DVAT.DAT1;
+				 _datSprz:=DVAT.DAT2;
+				 {! _i:=43..50 |! k[_i]:=0; q[_i]:=0 !};
+				 PVAT.prefix(DVAT.ref);
+				 {? PVAT.first ||
+				    {! |? {? 4+PVAT.GRVAT().KOD='ZInw' || _netto:=43; _pod:=44
+					      |? 'ZPoz,ZakP,Zaku'*(4+PVAT.GRVAT().KOD)>0 || _netto:=45; _pod:=46
+                          || _netto:=_pod:=0
+                          ?};
+					      {? _netto<>0 || k[_netto]+=PVAT.SUM2; q[_netto]:=1 ?};
+						  {? _pod<>0 || k[_pod]+=PVAT.VAT; k[2]+=PVAT.VAT; q[_pod]:=1 ?};						   
+                           PVAT.next 					
+					!}
+				 ?};
+                 exec('wierszZA','jpk',_lp,_nrKh,_nazKh,_adrKh,_nrDok,_datWyst,_datSprz);
+                 DOK.cntx_pop();
+		         DVAT.next	 
+            !}
+		 ?};
+		 RVAT.next
+  !}
+?};
+k[1]:=_lp;
+RVAT.cntx_pop(); DVAT.cntx_pop(); PVAT.cntx_pop();
+
+toXml('tns:ZakupCtrl');
+toXml('tns:LiczbaWierszyZakupow',,form(k[1]));
+toXml('tns:PodatekNaliczony',,form(k[2],,2,'9.'));
+toXml('/tns:ZakupCtrl')
+
+
+
+\jpk_vat
+{? exec('jpk_start','jpk',_a) ||
+   exec('naglowek','jpk','JPK_VAT',_a,{? _a<>'3' || '1' || DEFCEL ?},{? _a<>'3' || '1-0' || '1-1' ?} );
+   exec('podmiot','jpk','1',_a);
+   exec('sprzedaz','jpk');
+   exec('zakupy','jpk');
+   exec('jpk_stop','jpk')
+|| msg(utf8_maz('Generowanie zostało przerwane...'))
+?}
+
+
+
