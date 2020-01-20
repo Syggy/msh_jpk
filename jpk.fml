@@ -11,10 +11,44 @@ _wiersz:='<'+_a+{? _b<>''||' '+_b||''?}+'>'+{? var_pres('_c')>0 || maz_utf8(_c)+
 || 1
 ?};1
 
+\tznak
+:: typ znakowy - zamiana znaków spacjalnych
+{? var_pres('_a')<0 || _a:='error' ?};
+_spr:=1;
+{! |? _spr |!
+   {? _w:=_a*'&'; _w>0 || _a:=(_w-1)+_a+'''and;'+(_w-_a)
+   |? _w:=_a*'<'; _w>0 || _a:=(_w-1)+_a+'''lt;'+(_w-_a)
+   |? _w:=_a*'>'; _w>0 || _a:=(_w-1)+_a+'''gt;'+(_w-_a)
+   |? _w:=_a*'='; _w>0 || _a:=(_w-1)+_a+'''eq;'+(_w-_a)
+   |? _w:=_a*'"'; _w>0 || _a:=(_w-1)+_a+'''quot;'+(_w-_a)
+   || _spr:=0
+   ?}
+!};
+_a
+
+\tfilenaz
+:: nazwa pliku
+{? var_pres('_a')<0 || _a:='jpk_vat' ?};
+_spr:=1;
+{! |? _spr |!
+   {? _w:=_a*'('; _w>0 || _a:=(_w-1)+_a+'_'+(_w-_a)
+   |? _w:=_a*')'; _w>0 || _a:=(_w-1)+_a+'_'+(_w-_a)
+   |? _w:=_a*'{'; _w>0 || _a:=(_w-1)+_a+'_'+(_w-_a)
+   |? _w:=_a*'}'; _w>0 || _a:=(_w-1)+_a+'_'+(_w-_a)
+   |? _w:=_a*'['; _w>0 || _a:=(_w-1)+_a+'_'+(_w-_a)
+   |? _w:=_a*']'; _w>0 || _a:=(_w-1)+_a+'_'+(_w-_a)
+   |? _w:=_a*'/'; _w>0 || _a:=(_w-1)+_a+'_'+(_w-_a)
+   |? _w:=_a*'\\'; _w>0 || _a:=(_w-1)+_a+'_'+(_w-_a)
+   || _spr:=0
+   ?}
+!};
+_a
 
 \jpk_start
 formDat:="_a:=form(_a);(4+_a)+'-'+(2+(5-_a))+'-'+(_a+2)";
 toXml:="{? _=1 || _b:=_c:=~~ |? _=2 || _c:=~~ ?}; exec('toxml','jpk',_a,_b,_c)";
+tZnak:="exec('tznak','jpk',_a)";
+tFile:="exec('tfilenaz','jpk',_a)";
 {? var_pres('k')<=0 || k:=obj_new(51) ?};
 {? var_pres('q')<=0 || q:=obj_new(51) ?};
 {? var_pres('STR')<0 || STR:=obj_new(@.CLASS.STRING) ?};
@@ -28,13 +62,14 @@ define('FILE',DEFFILE,'Nazwa pliku',,20,20);
 {? _a<>'3' || define('KUS',DEFKUS,'Kod Urzędu Skarbowego',,4,4) || define('CEL',DEFCEL,utf8_maz('Cel złożenia'),,2,2) ?};
 {? def_edit() ||
    DEFFILE:={? DEFINE.FILE*'.'>0 || (DEFINE.FILE*'.')+DEFINE.FILE+'xml'|| DEFINE.FILE+'.xml' ?};
+   DEFFILE:=tFile(DEFFILE);
    {? _a<>'3' || DEFKUS:=DEFINE.KUS || DEFCEL:=DEFINE.CEL ?};
    DEFPATH:=DEFINE.PATH;
    file:=fopen('@'+DEFPATH+'\\'+DEFFILE,'w');
    toXml('?xml version=\"1.0\" encoding=\"UTF-8\"?');
    toXml('tns:JPK','xmlns:etd="http://crd.gov.pl/xml/schematy/dziedzinowe/mf/2016/01/25/eD/DefinicjeTypy/" xmlns:tns="http://jpk.mf.gov.pl/wzor/2017/11/13/1113/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"');
    1
-|| &DEFFILE; &DEFKUS; &DEFPATH; &DEFCEL; &formDat; &toXml; obj_del(k);
+|| &DEFFILE; &DEFKUS; &DEFPATH; &DEFCEL; &formDat; &toXml; &tZnak; &tFile; obj_del(k);
    0 
 ?}
 
@@ -44,7 +79,7 @@ define('FILE',DEFFILE,'Nazwa pliku',,20,20);
 toXml('/tns:JPK');
 fclose(&file);
 msg('Plik '+DEFFILE+utf8_maz(' został wygenerowany pomyślnie'));
-&DEFFILE; &DEFKUS; &DEFPATH; &DEFCEL; &formDat; &toXml; obj_del(k); 1
+&DEFFILE; &DEFKUS; &DEFPATH; &DEFCEL; &formDat; &toXml; &tZnak; &tFile; obj_del(k); 1
 
 
 \naglowek
@@ -115,8 +150,8 @@ toXml('tns:SprzedazWiersz');
 toXml('tns:LpSprzedazy',,form(_a));
 _b:=STR.gsub(_b,'-','');{? _b='' || _b:='brak' ?};
 toXml('tns:NrKontrahenta',,_b);
-toXml('tns:NazwaKontrahenta',,maz_utf8(_c));
-toXml('tns:AdresKontrahenta',,maz_utf8(_d));
+toXml('tns:NazwaKontrahenta',,maz_utf8(tZnak(_c)));
+toXml('tns:AdresKontrahenta',,maz_utf8(tZnak(_d)));
 toXml('tns:DowodSprzedazy',,_e);
 toXml('tns:DataWystawienia',,formDat(_f));
 toXml('tns:DataSprzedazy',,formDat(_g));
@@ -134,8 +169,8 @@ toXml('tns:ZakupWiersz');
 toXml('tns:LpZakupu',,form(_a));
 _b:=STR.gsub(_b,'-','');
 toXml('tns:NrDostawcy',,_b);
-toXml('tns:NazwaDostawcy',,maz_utf8(_c));
-toXml('tns:AdresDostawcy',,maz_utf8(_d));
+toXml('tns:NazwaDostawcy',,maz_utf8(tZnak(_c)));
+toXml('tns:AdresDostawcy',,maz_utf8(tZnak(_d)));
 toXml('tns:DowodZakupu',,_e);
 toXml('tns:DataZakupu',,formDat(_f));
 toXml('tns:DataWplywu',,formDat(_g));
